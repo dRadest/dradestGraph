@@ -13,6 +13,8 @@ private:
     std::vector<int> *adj;    
 public: 
     dradestGraph(int x);  // Constructor 
+    // utility function to add an edge between u and w
+    void addEdge(int u, int w);
 }; 
  
 #endif
