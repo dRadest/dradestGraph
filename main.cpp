@@ -42,6 +42,11 @@ int main()
     graph.BFS(3);
     graph.BFS(5); // invalid node
 
+    // preform depth first search
+    graph.iterativeDFS(0);
+    graph.iterativeDFS(3);
+    graph.iterativeDFS(5);
+
   
     return 0;
 }

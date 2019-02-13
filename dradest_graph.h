@@ -18,8 +18,10 @@ public:
     // utility function to print the adjacency list representation of the graph
     void printGraph();
     // utility function to perform a breadth first search starting from node n
-    // returns a vector of nodes
     std::vector<int> BFS(int n);
+    // utility function to perform a depth first search starting from node n, iteratively
+    std::vector<int> iterativeDFS(int n);
+
 }; 
  
 #endif

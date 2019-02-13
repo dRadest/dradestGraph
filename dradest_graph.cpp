@@ -2,6 +2,7 @@
 #include <vector>
 #include <algorithm>
 #include <queue>
+#include <stack>
 #include "dradest_graph.h"
 using namespace std;
  
@@ -84,4 +85,51 @@ std::vector<int> dradestGraph::BFS(int n)
   } 
   std::cout << "\n";
   return bfs;
+}
+
+std::vector<int> dradestGraph::iterativeDFS(int n)
+{
+  // save dfs 
+  std::vector<int> dfs;
+  // check if n valid
+  if(n >= V){
+    std::cout << "Node " << n << " invalid. Exiting DFS.\n";
+    return dfs;
+  }
+  // mark all nodes as unvisited
+  bool *visited = new bool[V]; 
+  for(int i = 0; i < V; i++){
+    visited[i] = false;
+  }
+  
+  // stack for depth first search
+  stack<int> stack; 
+  
+  // push the starting node unto stack 
+  stack.push(n); 
+
+  std::cout << "Iterative DFS from node " << n << ": ";
+  
+  while (!stack.empty()) 
+  { 
+    // pop a node from the stack
+    n = stack.top(); 
+    stack.pop(); 
+
+    // print it only if it hasn't been visited yet
+    if (!visited[n]) 
+    { 
+        cout << n << " "; 
+        dfs.push_back(n);
+        visited[n] = true; 
+    } 
+    // traverse adjacency list of node n
+    for (auto it = adj[n].begin(); it != adj[n].end(); ++it) {
+        if (!visited[*it]){
+          stack.push(*it);
+        }  
+    } 
+  }
+  std::cout << "\n";
+  return dfs;
 }
