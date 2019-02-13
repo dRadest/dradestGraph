@@ -1,6 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <queue>
 #include "dradest_graph.h"
 using namespace std;
  
@@ -35,3 +36,52 @@ void dradestGraph::printGraph()
     }
   } 
 } 
+
+std::vector<int> dradestGraph::BFS(int n)
+{
+  // save bfs 
+  std::vector<int> bfs;
+  // check if n valid
+  if(n >= V){
+    std::cout << "Node " << n << " invalid. Exiting BFS.\n";
+    return bfs;
+  }
+  // mark all nodes as unvisited
+  bool *visited = new bool[V]; 
+  for(int i = 0; i < V; i++){
+    visited[i] = false;
+  }
+
+  // queue for breadth first search
+  std::queue<int> q;  
+  
+  // mark the starting node as visited and enqueue it 
+  visited[n] = true; 
+  q.push(n); 
+  
+  // iterator for iterating adjacency list of node n
+  std::vector<int>::iterator it; 
+
+  std::cout << "BFS from node " << n << ": ";
+  
+  while(!q.empty()) 
+  { 
+    // dequeue a node from queue 
+    n = q.front(); 
+    std::cout << n << " ";
+    bfs.push_back(n); 
+    q.pop(); 
+
+    // traverse all adjacent nodes of node n
+    for (it = adj[n].begin(); it != adj[n].end(); ++it) 
+    { 
+      if (!visited[*it]) // mark as visited and enqueue it
+      { 
+          visited[*it] = true; 
+          q.push(*it); 
+      } 
+    } 
+  } 
+  std::cout << "\n";
+  return bfs;
+}

@@ -33,8 +33,14 @@ int main()
 		      3
 
     ********************/
+
     // print adjacency list of each node
     graph.printGraph();
+
+    // perform breadth first search
+    graph.BFS(0);
+    graph.BFS(3);
+    graph.BFS(5); // invalid node
 
   
     return 0;
