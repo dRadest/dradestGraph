@@ -27,12 +27,14 @@ int main()
 			0
 		   / \
 		  4___1
-		   \   \
-		    \   2
-		     \ /
+		   \  |\
+		    \ | 2
+		     \|/
 		      3
 
     ********************/
+    // print adjacency list of each node
+    graph.printGraph();
 
   
     return 0;

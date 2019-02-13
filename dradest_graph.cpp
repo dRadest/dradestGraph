@@ -20,6 +20,18 @@ void dradestGraph::addEdge(int u, int w)
   }
   else
   {
-    cout << "edge " << u << " - " << w << " already exists!" << endl;
+    cout << "edge " << u << " - " << w << " already exists!\n";
   }
 }
+
+void dradestGraph::printGraph() 
+{ 
+  for (int i=0; i < V; ++i) 
+  { 
+    std::cout << "Adjacency list of node " << i << ": "; 
+    for (int j=0; j < adj[i].size(); ++j)
+    {
+      std::cout << adj[i].at(j) << (j==adj[i].size()-1 ? "\n" : " -> ");
+    }
+  } 
+} 
