@@ -19,6 +19,9 @@ void dradestGraph::addEdge(int u, int w)
   {
     adj[u].push_back(w);
     adj[w].push_back(u);
+    // TODO: replace with set later to keep adjacency lists sorted
+    std::sort(adj[u].begin(), adj[u].end());
+    std::sort(adj[w].begin(), adj[w].end());
   }
   else
   {
@@ -42,7 +45,7 @@ std::vector<int> dradestGraph::BFS(int n)
 {
   // save bfs 
   std::vector<int> bfs;
-  // check if n valid
+  // check if n is valid
   if(n >= V){
     std::cout << "Node " << n << " invalid. Exiting BFS.\n";
     return bfs;
@@ -91,7 +94,7 @@ std::vector<int> dradestGraph::iterativeDFS(int n)
 {
   // save dfs 
   std::vector<int> dfs;
-  // check if n valid
+  // check if n is valid
   if(n >= V){
     std::cout << "Node " << n << " invalid. Exiting DFS.\n";
     return dfs;
@@ -116,15 +119,18 @@ std::vector<int> dradestGraph::iterativeDFS(int n)
     n = stack.top(); 
     stack.pop(); 
 
-    // print it only if it hasn't been visited yet
-    if (!visited[n]) 
-    { 
-        cout << n << " "; 
-        dfs.push_back(n);
-        visited[n] = true; 
-    } 
-    // traverse adjacency list of node n
-    for (auto it = adj[n].begin(); it != adj[n].end(); ++it) {
+    if(visited[n]) // ignore it if already visited
+    {
+      continue;
+    }
+
+    // mark n as visited and print it
+    cout << n << " "; 
+    dfs.push_back(n);
+    visited[n] = true; 
+    
+    // traverse adjacency list of node n in reverse order
+    for (auto it = adj[n].rbegin(); it != adj[n].rend(); ++it) {
         if (!visited[*it]){
           stack.push(*it);
         }  
@@ -133,3 +139,40 @@ std::vector<int> dradestGraph::iterativeDFS(int n)
   std::cout << "\n";
   return dfs;
 }
+
+void dradestGraph::helpDFS(int n, bool visited[], std::vector<int>* dfs) 
+{ 
+  // mark the current node as visited and print it 
+  visited[n] = true; 
+  cout << n << " "; 
+  dfs -> push_back(n);
+  
+  // traverse adjacency list of current node
+  for(auto it = adj[n].begin(); it != adj[n].end(); ++it) {
+      if(!visited[*it]) {
+          helpDFS(*it, visited, dfs); 
+      }
+  }
+} 
+
+std::vector<int> dradestGraph::recursiveDFS(int n) 
+{ 
+  vector<int> dfs;
+  // check if n is valid
+  if(n >= V){
+    std::cout << "Node " << n << " invalid. Exiting DFS.\n";
+    return dfs;
+  }
+  std::cout << "Recursive DFS from node " << n << ": ";
+  // mark all the vertices as not visited 
+  bool *visited = new bool[V]; 
+  for (int i = 0; i < V; i++) {
+      visited[i] = false; 
+  }
+
+  // call the helper dfs function
+  helpDFS(n, visited, &dfs);
+  std::cout << "\n";
+  return dfs;
+   
+} 

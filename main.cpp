@@ -44,9 +44,22 @@ int main()
 
     // preform depth first search
     graph.iterativeDFS(0);
-    graph.iterativeDFS(3);
-    graph.iterativeDFS(5);
+    std::vector<int> idfs = graph.iterativeDFS(3);
+    graph.iterativeDFS(5); // invalid node
 
+    graph.recursiveDFS(0);
+    std::vector<int> rdfs = graph.recursiveDFS(3);
+    graph.recursiveDFS(5); // invalid node
+
+    std::cout << "do iterative and recursive approach yield same result? " << (idfs==rdfs) << "\n";
+    for(auto x:idfs){
+    	cout << x << " ";
+    }
+    cout << "\n";
+    for(auto x:rdfs){
+    	cout << x << " ";
+    }
+    cout << "\n";
   
     return 0;
 }
