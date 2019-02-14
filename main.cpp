@@ -51,15 +51,9 @@ int main()
     std::vector<int> rdfs = graph.recursiveDFS(3);
     graph.recursiveDFS(5); // invalid node
 
-    std::cout << "do iterative and recursive approach yield same result? " << (idfs==rdfs) << "\n";
-    for(auto x:idfs){
-    	cout << x << " ";
-    }
-    cout << "\n";
-    for(auto x:rdfs){
-    	cout << x << " ";
-    }
-    cout << "\n";
-  
+    std::cout << "do iterative and recursive approach yield same result? " << (idfs==rdfs ? "yes" : "no") << "\n";  
+
+    // use DFS to check if graph contains a cycle
+    std::cout << "DFS check for cycle returns: " << graph.hasCycle() << "\n";
     return 0;
 }

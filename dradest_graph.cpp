@@ -176,3 +176,46 @@ std::vector<int> dradestGraph::recursiveDFS(int n)
   return dfs;
    
 } 
+
+bool dradestGraph::helpCycle(int n, bool visited[], int parent) 
+{ 
+  // mark the current node as visited 
+  visited[n] = true; 
+
+  // traverse adjacent nodes
+  for (auto it = adj[n].begin(); it != adj[n].end(); ++it) 
+  { 
+    // recur for adjacent unvisited nodes
+    if (!visited[*it]) 
+    { 
+       if (helpCycle(*it, visited, n)) 
+          return true; 
+    } 
+
+    // adjacent node visited and not a parent of current node
+    else if (*it != parent) {
+      return true;
+    }
+  } 
+  return false; 
+} 
+
+bool dradestGraph::hasCycle()
+{ 
+  // initally, all nodes are not visited
+  bool *visited = new bool[V]; 
+  for (int i = 0; i < V; i++) {
+    visited[i] = false; 
+  }
+
+  // call helpCycle() to detect a cycle in different DFS trees
+  for (int i = 0; i < V; i++) {
+    if (!visited[i]) { 
+      if (helpCycle(i, visited, -1)) {
+        return true; 
+      }
+    }
+  }
+
+  return false; 
+} 

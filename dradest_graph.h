@@ -13,8 +13,11 @@ private:
     std::vector<int> *adj;    
     // helper function used by recursiveDFS()
     void helpDFS(int n, bool visited[], std::vector<int>* dfs);
+    // helper function to detect a cycle reachable from n
+    bool helpCycle(int n, bool visited[], int parent);
 public: 
-    dradestGraph(int x);  // Constructor 
+    // constructor
+    dradestGraph(int x);
     // utility function to add an edge between u and w
     void addEdge(int u, int w);
     // utility function to print the adjacency list representation of the graph
@@ -25,6 +28,8 @@ public:
     std::vector<int> iterativeDFS(int n);
     // utility function to perform a depth first search starting from node n, recursively
     std::vector<int> recursiveDFS(int n);
+    // utility function to detect a cycle in the graph based on DFS
+    bool hasCycle();
 
 }; 
  
