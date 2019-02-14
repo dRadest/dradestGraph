@@ -8,6 +8,11 @@ class dradestGraph
 { 
 private:
     int V; // number of vertices 
+
+    // subset for union-find algorithm
+    struct subset {
+     int parent, rank;
+    };
   
     // Pointer to an array containing adjacency lists 
     std::vector<int> *adj;    
@@ -16,8 +21,8 @@ private:
     // helper function to detect a cycle reachable from n
     bool helpCycle(int n, bool visited[], int parent);
     // helper functions to use in union-find
-    int find(int parent[], int i);
-    void Union(int parent[], int x, int y);
+    int find(struct subset subsets[], int i);
+    void Union(struct subset subsets[], int x, int y);
 public: 
     // constructor
     dradestGraph(int x);

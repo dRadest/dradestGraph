@@ -220,23 +220,40 @@ bool dradestGraph::hasCycle()
   return false; 
 } 
 
-int dradestGraph::find(int parent[], int i)
+// uses path compression technique 
+// (i.e. keeps found root of i as its parent)
+int dradestGraph::find(struct subset subsets[], int i)
 {
-  if(parent[i]==-1)
+  if(subsets[i].parent != i)
   {
-    return i;
+    subsets[i].parent = find(subsets, subsets[i].parent);
   }
-  return find(parent, parent[i]);
+  return subsets[i].parent;
 }
 
-void dradestGraph::Union(int parent[], int x, int y)
+// uses union by rank to do union of sets x and y
+void dradestGraph::Union(struct subset subsets[], int x, int y)
 {
-  int xset = find(parent, x);
-  int yset = find(parent, y);
-  if(xset != yset)
+  // find root of x and y
+  int xroot = find(subsets, x); 
+  int yroot = find(subsets, y); 
+
+  // attach smaller rank tree under root of high rank tree  
+  if (subsets[xroot].rank < subsets[yroot].rank) 
   {
-    parent[xset] = yset;
+    subsets[xroot].parent = yroot; 
   }
+  else if (subsets[xroot].rank > subsets[yroot].rank) 
+  {
+    subsets[yroot].parent = xroot; 
+  }
+
+  // make one as root and increment its rank by one 
+  else
+  { 
+      subsets[yroot].parent = xroot; 
+      subsets[xroot].rank++; 
+  } 
 }
 
 bool dradestGraph::containsCycle()
@@ -245,9 +262,12 @@ bool dradestGraph::containsCycle()
   std::vector<int> *wadj = adj;
 
   // memory for creatng V subsets
-  int *parent = new int[V]; 
-  for (int i = 0; i < V; i++) { // initally, every node in its own subset
-    parent[i] = -1; 
+  struct subset* subsets = new subset[V]; 
+  // initialize all nodes to be in their own set 
+  for (int i = 0; i < V; i++)
+  { 
+    subsets[i].parent = i;
+    subsets[i].rank = 0;
   }
 
   // traverse adjacency list
@@ -256,33 +276,18 @@ bool dradestGraph::containsCycle()
     // traverse adjacent nodes (i.e. edges) of the current node
     for(auto it=wadj[i].begin(); it != wadj[i].end(); ++it)
     {
-      int x = find(parent, i);
-      int y = find(parent, *it);
+      int x = find(subsets, i);
+      int y = find(subsets, *it);
       if(x == y)
       {
         return true;
       }
-      Union(parent, x, y);
+      Union(subsets, x, y);
       // remove current node from y's list of adjacent nodes
       auto index = std::lower_bound(wadj[*it].begin(), wadj[*it].end(), i);
       wadj[*it].erase(index);
     }
   }
-
-  /*
-  // Iterate through all edges of graph, find subset of both 
-  // vertices of every edge, if both subsets are same, then  
-  // there is cycle in graph. 
-  for(int i = 0; i < graph->E; ++i) 
-  { 
-      int x = find(parent, graph->edge[i].src); 
-      int y = find(parent, graph->edge[i].dest); 
-
-      if (x == y) 
-          return 1; 
-
-      Union(parent, x, y); 
-  } 
-  */
-  return 0; 
+  
+  return false; 
 }

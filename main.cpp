@@ -57,7 +57,7 @@ int main()
     std::cout << "DFS check for cycle returns: " << graph.hasCycle() << "\n";
 
     // use union find to check if the graph contains a cycle
-    std::cout << "UF check for cycle returns: " << graph.containsCycle() << "\n";
+    std::cout << "UF check for cycle in cyclic graph returns: " << graph.containsCycle() << "\n";
 
     // construct acyclic graph
     dradestGraph dg(7);
@@ -68,10 +68,20 @@ int main()
     dg.addEdge(2,4);
     dg.addEdge(4,6); // TODO: safety check for index out of bounds
 
+    /*** constructed graph
+
+    	0
+       / \
+      1   2
+         /|\
+        3 4 5
+
+    *********************/
+
     // print acyclic graph adjacency list
     dg.printGraph();
 
-    std::cout << "UF check for cycle returns: " << dg.containsCycle() << "\n";
+    std::cout << "UF check for cycle in acyclic graph returns: " << dg.containsCycle() << "\n";
 
     return 0;
 }
