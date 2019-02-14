@@ -219,3 +219,70 @@ bool dradestGraph::hasCycle()
 
   return false; 
 } 
+
+int dradestGraph::find(int parent[], int i)
+{
+  if(parent[i]==-1)
+  {
+    return i;
+  }
+  return find(parent, parent[i]);
+}
+
+void dradestGraph::Union(int parent[], int x, int y)
+{
+  int xset = find(parent, x);
+  int yset = find(parent, y);
+  if(xset != yset)
+  {
+    parent[xset] = yset;
+  }
+}
+
+bool dradestGraph::containsCycle()
+{
+  // create a working copy of adjacency list
+  std::vector<int> *wadj = adj;
+
+  // memory for creatng V subsets
+  int *parent = new int[V]; 
+  for (int i = 0; i < V; i++) { // initally, every node in its own subset
+    parent[i] = -1; 
+  }
+
+  // traverse adjacency list
+  for(int i=0; i<V; ++i)
+  {
+    // traverse adjacent nodes (i.e. edges) of the current node
+    for(auto it=wadj[i].begin(); it != wadj[i].end(); ++it)
+    {
+      int x = find(parent, i);
+      int y = find(parent, *it);
+      if(x == y)
+      {
+        return true;
+      }
+      Union(parent, x, y);
+      // remove current node from y's list of adjacent nodes
+      auto index = std::lower_bound(wadj[*it].begin(), wadj[*it].end(), i);
+      wadj[*it].erase(index);
+    }
+  }
+
+  /*
+  // Iterate through all edges of graph, find subset of both 
+  // vertices of every edge, if both subsets are same, then  
+  // there is cycle in graph. 
+  for(int i = 0; i < graph->E; ++i) 
+  { 
+      int x = find(parent, graph->edge[i].src); 
+      int y = find(parent, graph->edge[i].dest); 
+
+      if (x == y) 
+          return 1; 
+
+      Union(parent, x, y); 
+  } 
+  */
+  return 0; 
+}

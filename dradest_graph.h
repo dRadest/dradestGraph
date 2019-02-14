@@ -15,6 +15,9 @@ private:
     void helpDFS(int n, bool visited[], std::vector<int>* dfs);
     // helper function to detect a cycle reachable from n
     bool helpCycle(int n, bool visited[], int parent);
+    // helper functions to use in union-find
+    int find(int parent[], int i);
+    void Union(int parent[], int x, int y);
 public: 
     // constructor
     dradestGraph(int x);
@@ -30,6 +33,8 @@ public:
     std::vector<int> recursiveDFS(int n);
     // utility function to detect a cycle in the graph based on DFS
     bool hasCycle();
+    // utility function that uses union-find to detect a cycle in the graph
+    bool containsCycle();
 
 }; 
  
