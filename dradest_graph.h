@@ -42,6 +42,8 @@ public:
     bool containsCycle();
     // utility function to find minimum spanning tree using Prim's algorithm
     std::vector<int>* primMST();
+    // utility function to find minimum spanning tree using Kruskal's algorithm
+    std::vector<int>* kruskalMST();
 
 }; 
  

@@ -83,15 +83,30 @@ int main()
 
     std::cout << "UF check for cycle in acyclic graph returns: " << dg.containsCycle() << "\n";
 
+    std::vector<int>* wadj;
     // perform Prim's algorithm 
-    std::vector<int> *prim = graph.primMST();
+    wadj = graph.primMST();
     // print found MST
     std::cout << "MST using Prim's algorithm has following edges\n";
     for(int i=0; i<5; ++i)
     {
-    	if(!prim[i].empty())
+    	if(!wadj[i].empty())
     	{
-    		for(auto it=prim[i].begin(); it!=prim[i].end(); ++it)
+    		for(auto it=wadj[i].begin(); it!=wadj[i].end(); ++it)
+    		{
+    			std::cout << i << " -> " << *it << "\n";
+    		}
+    	}
+    }
+
+    // perform Kruskal's algorithm
+    wadj = graph.kruskalMST();
+    std::cout << "MST using Kruskal's algorithm has following edges\n";
+    for(int i=0; i<5; ++i)
+    {
+    	if(!wadj[i].empty())
+    	{
+    		for(auto it=wadj[i].begin(); it!=wadj[i].end(); ++it)
     		{
     			std::cout << i << " -> " << *it << "\n";
     		}

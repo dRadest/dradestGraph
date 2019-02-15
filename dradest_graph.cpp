@@ -5,7 +5,7 @@
 #include <stack>
 #include "dradest_graph.h"
 using namespace std;
- 
+
 dradestGraph::dradestGraph(int x)
 {
   V = x;
@@ -81,8 +81,8 @@ std::vector<int> dradestGraph::BFS(int n)
     { 
       if (!visited[*it]) // mark as visited and enqueue it
       { 
-          visited[*it] = true; 
-          q.push(*it); 
+        visited[*it] = true; 
+        q.push(*it); 
       } 
     } 
   } 
@@ -131,9 +131,9 @@ std::vector<int> dradestGraph::iterativeDFS(int n)
     
     // traverse adjacency list of node n in reverse order
     for (auto it = adj[n].rbegin(); it != adj[n].rend(); ++it) {
-        if (!visited[*it]){
-          stack.push(*it);
-        }  
+      if (!visited[*it]){
+        stack.push(*it);
+      }  
     } 
   }
   std::cout << "\n";
@@ -149,9 +149,9 @@ void dradestGraph::helpDFS(int n, bool visited[], std::vector<int>* dfs)
   
   // traverse adjacency list of current node
   for(auto it = adj[n].begin(); it != adj[n].end(); ++it) {
-      if(!visited[*it]) {
-          helpDFS(*it, visited, dfs); 
-      }
+    if(!visited[*it]) {
+      helpDFS(*it, visited, dfs); 
+    }
   }
 } 
 
@@ -167,14 +167,14 @@ std::vector<int> dradestGraph::recursiveDFS(int n)
   // mark all the vertices as not visited 
   bool *visited = new bool[V]; 
   for (int i = 0; i < V; i++) {
-      visited[i] = false; 
+    visited[i] = false; 
   }
 
   // call the helper dfs function
   helpDFS(n, visited, &dfs);
   std::cout << "\n";
   return dfs;
-   
+
 } 
 
 bool dradestGraph::helpCycle(int n, bool visited[], int parent) 
@@ -188,16 +188,16 @@ bool dradestGraph::helpCycle(int n, bool visited[], int parent)
     // recur for adjacent unvisited nodes
     if (!visited[*it]) 
     { 
-       if (helpCycle(*it, visited, n)) 
-          return true; 
-    } 
+     if (helpCycle(*it, visited, n)) 
+      return true; 
+  } 
 
     // adjacent node visited and not a parent of current node
-    else if (*it != parent) {
-      return true;
-    }
-  } 
-  return false; 
+  else if (*it != parent) {
+    return true;
+  }
+} 
+return false; 
 } 
 
 bool dradestGraph::hasCycle()
@@ -251,8 +251,8 @@ void dradestGraph::Union(struct subset subsets[], int x, int y)
   // make one as root and increment its rank by one 
   else
   { 
-      subsets[yroot].parent = xroot; 
-      subsets[xroot].rank++; 
+    subsets[yroot].parent = xroot; 
+    subsets[xroot].rank++; 
   } 
 }
 
@@ -294,7 +294,7 @@ bool dradestGraph::containsCycle()
 
 std::vector<int>* dradestGraph::primMST()
 {
-  // construct MST as a adjacency list
+  // construct MST as an adjacency list
   std::vector<int> *wadj = new std::vector<int>[V];
 
   // set of included nodes in the MST
@@ -323,6 +323,46 @@ std::vector<int>* dradestGraph::primMST()
         return wadj;
       }
     }
+  }
+  return wadj;
+}
+
+std::vector<int>* dradestGraph::kruskalMST()
+{
+  // construct MST as an adjacency list
+  std::vector<int> *wadj = new std::vector<int>[V];
+
+  // memory for creatng V subsets
+  struct subset* subsets = new subset[V]; 
+  // initialize all nodes to be in their own set 
+  for (int i = 0; i < V; i++)
+  { 
+    subsets[i].parent = i;
+    subsets[i].rank = 0;
+  }
+
+  // keep track of edges added
+  int edges = 0;
+  // current node 
+  int i = 0;
+  while(edges < V-1)
+  {
+    // traverse adjacent nodes of the current node (i)
+    for(auto it=adj[i].begin(); it!=adj[i].end(); ++it)
+    {
+      // check if this edge forms a cycle
+      int x = find(subsets, i);
+      int y = find(subsets, *it);
+      if(x != y)
+      {
+        // add the edge
+        wadj[i].push_back(*it);
+        // perform union on the two nodes
+        Union(subsets, x, y);
+        edges++;
+      }
+    }
+    i++;
   }
   return wadj;
 }
