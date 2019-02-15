@@ -291,3 +291,38 @@ bool dradestGraph::containsCycle()
   
   return false; 
 }
+
+std::vector<int>* dradestGraph::primMST()
+{
+  // construct MST as a adjacency list
+  std::vector<int> *wadj = new std::vector<int>[V];
+
+  // set of included nodes in the MST
+  bool included[V];
+  for(int i=0; i<V; ++i) // initialize all to false
+  {
+    included[i] = false;
+  }
+
+  // include the first node in the MST
+  included[0] = true;
+  // keep track of nodes included so we can return early if needs be
+  int pushed = 1;
+  for(int i=0; i<V; ++i)
+  {
+    for(auto it=adj[i].begin(); it!=adj[i].end(); ++it)
+    {
+      if(!included[*it])
+      {
+        wadj[i].push_back(*it);
+        included[*it] = true;
+        pushed++;
+      }
+      if(pushed >= V)
+      {
+        return wadj;
+      }
+    }
+  }
+  return wadj;
+}

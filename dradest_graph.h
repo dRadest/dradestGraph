@@ -40,6 +40,8 @@ public:
     bool hasCycle();
     // utility function that uses union-find to detect a cycle in the graph
     bool containsCycle();
+    // utility function to find minimum spanning tree using Prim's algorithm
+    std::vector<int>* primMST();
 
 }; 
  

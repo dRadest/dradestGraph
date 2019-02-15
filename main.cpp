@@ -83,5 +83,20 @@ int main()
 
     std::cout << "UF check for cycle in acyclic graph returns: " << dg.containsCycle() << "\n";
 
+    // perform Prim's algorithm 
+    std::vector<int> *prim = graph.primMST();
+    // print found MST
+    std::cout << "MST using Prim's algorithm has following edges\n";
+    for(int i=0; i<5; ++i)
+    {
+    	if(!prim[i].empty())
+    	{
+    		for(auto it=prim[i].begin(); it!=prim[i].end(); ++it)
+    		{
+    			std::cout << i << " -> " << *it << "\n";
+    		}
+    	}
+    }
+
     return 0;
 }
