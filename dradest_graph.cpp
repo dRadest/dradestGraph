@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <queue>
 #include <stack>
+#include <limits.h> 
 #include "dradest_graph.h"
 using namespace std;
 
@@ -259,7 +260,11 @@ void dradestGraph::Union(struct subset subsets[], int x, int y)
 bool dradestGraph::containsCycle()
 {
   // create a working copy of adjacency list
-  std::vector<int> *wadj = adj;
+  std::vector<int> *wadj = new vector<int>[V];
+  for(int i=0; i<V; i++)
+  {
+    wadj[i] = adj[i];
+  }
 
   // memory for creatng V subsets
   struct subset* subsets = new subset[V]; 
@@ -365,4 +370,57 @@ std::vector<int>* dradestGraph::kruskalMST()
     i++;
   }
   return wadj;
+}
+
+int dradestGraph::minDistance(int distance[], bool included[]) 
+{ 
+   // Initialize min value 
+   int min = INT_MAX, min_index; 
+   
+   for (int v = 0; v < V; v++) 
+   {
+     if (included[v] == false && distance[v] <= min)
+     {
+       min = distance[v]; 
+       min_index = v; 
+     } 
+   }
+   
+   return min_index; 
+} 
+
+void dradestGraph::dijkstraSPT(int root)
+{
+  // set of included nodes in the MST
+  bool included[V];
+  int distance[V];
+  for(int i=0; i<V; ++i) 
+  {
+    distance[i] = INT_MAX; // initialize all max value
+    included[i] = false; // initialize all to false
+  }
+
+  // include the first node in the SPT
+  distance[root] = 0;
+  // keep track of nodes included so we can return early if needs be
+  for(int i=0; i<V; ++i)
+  {
+    int u = minDistance(distance, included);
+    included[u] = true;
+    // traverse all adjacent nodes of u
+    for(auto it=adj[u].begin(); it!=adj[u].end(); ++it)
+    { 
+      if(!included[*it] && distance[u] != INT_MAX && distance[u]+1 < distance[*it])
+      {
+        distance[*it] = distance[u]+1;
+      }
+    }
+  }
+  // print nodes and their distances from the root
+  std::cout << "Dijkstra starting from: " << root << " (node : distance)\n";
+  for(int i=0; i<V; ++i)
+  {
+    std::cout << i << " : " << distance[i] << "\n";
+  }
+
 }

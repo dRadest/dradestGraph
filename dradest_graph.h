@@ -23,6 +23,9 @@ private:
     // helper functions to use in union-find
     int find(struct subset subsets[], int i);
     void Union(struct subset subsets[], int x, int y);
+    // helper function to use in Dijkstra's algorithm
+    // returns node with minimum distance value from nodes not yet included in shortest path tree
+    int minDistance(int distance[], bool included[]);
 public: 
     // constructor
     dradestGraph(int x);
@@ -44,6 +47,8 @@ public:
     std::vector<int>* primMST();
     // utility function to find minimum spanning tree using Kruskal's algorithm
     std::vector<int>* kruskalMST();
+    // utility function to find shortest paths tree using Dijkstra's algorithm 
+    void dijkstraSPT(int root);
 
 }; 
  

@@ -60,13 +60,13 @@ int main()
     std::cout << "UF check for cycle in cyclic graph returns: " << graph.containsCycle() << "\n";
 
     // construct acyclic graph
-    dradestGraph dg(7);
+    dradestGraph dg(6);
     dg.addEdge(0,1);
     dg.addEdge(0,2);
     dg.addEdge(2,5);
     dg.addEdge(2,3);
     dg.addEdge(2,4);
-    dg.addEdge(4,6); // TODO: safety check for index out of bounds
+    //dg.addEdge(4,6); // TODO: safety check for index out of bounds
 
     /*** constructed graph
 
@@ -98,7 +98,6 @@ int main()
     		}
     	}
     }
-
     // perform Kruskal's algorithm
     wadj = graph.kruskalMST();
     std::cout << "MST using Kruskal's algorithm has following edges\n";
@@ -112,6 +111,12 @@ int main()
     		}
     	}
     }
+
+    // perform Dijkstra's algorithm
+    graph.dijkstraSPT(0); 
+    graph.dijkstraSPT(2);
+    dg.dijkstraSPT(0);
+    dg.dijkstraSPT(4); 
 
     return 0;
 }
