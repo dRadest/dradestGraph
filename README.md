@@ -1,4 +1,5 @@
 <p><img src="https://raw.githubusercontent.com/dRadovan/dradestGraph/master/images/dr_graph_banner.png" title="dradestGraph" alt="dradestGraph logo" width="500"></p>
+
 # DRad'est Graph
 
 Undirected graph implementation using adjacency list representation with some basic functions (listed below).
