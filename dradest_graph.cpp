@@ -16,6 +16,12 @@ dradestGraph::dradestGraph(int x)
 
 void dradestGraph::addEdge(int u, int w)
 {
+  // safety check for index out of bounds
+  if(u >= V || w >= V)
+  {
+    std::cout << "Invalid edge " << u << " - " << w << "!\n";
+    return;
+  }
   if(std::find(adj[u].begin(), adj[u].end(), w) == adj[u].end())
   {
     adj[u].push_back(w);
@@ -26,7 +32,7 @@ void dradestGraph::addEdge(int u, int w)
   }
   else
   {
-    cout << "edge " << u << " - " << w << " already exists!\n";
+    std::cout << "edge " << u << " - " << w << " already exists!\n";
   }
 }
 

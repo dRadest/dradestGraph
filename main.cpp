@@ -66,7 +66,7 @@ int main()
     dg.addEdge(2,5);
     dg.addEdge(2,3);
     dg.addEdge(2,4);
-    //dg.addEdge(4,6); // TODO: safety check for index out of bounds
+    dg.addEdge(4,6); // safety check for index out of bounds
 
     /*** constructed graph
 
