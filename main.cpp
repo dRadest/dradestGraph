@@ -118,5 +118,11 @@ int main()
     dg.dijkstraSPT(0);
     dg.dijkstraSPT(4); 
 
+    // testing out copy constructor
+    dradestGraph dg_copy = dg;
+    dg_copy.addEdge(3, 4);
+    dg.printGraph();
+    dg_copy.printGraph();
+
     return 0;
 }

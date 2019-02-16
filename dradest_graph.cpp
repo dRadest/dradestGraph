@@ -14,6 +14,21 @@ dradestGraph::dradestGraph(int x)
   std::cout << "graph constructed" << endl;
 }
 
+dradestGraph::dradestGraph(const dradestGraph& drg)
+{
+  V = drg.V;
+  adj = new std::vector<int> [V];
+  for(int i=0; i<V; ++i)
+  {
+    adj[i] = drg.adj[i];
+  }
+}
+
+dradestGraph::~dradestGraph()
+{
+  delete [] adj;
+}
+
 void dradestGraph::addEdge(int u, int w)
 {
   // safety check for index out of bounds

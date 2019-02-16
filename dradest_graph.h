@@ -16,6 +16,7 @@ private:
   
     // Pointer to an array containing adjacency lists 
     std::vector<int> *adj;    
+
     // helper function used by recursiveDFS()
     void helpDFS(int n, bool visited[], std::vector<int>* dfs);
     // helper function to detect a cycle reachable from n
@@ -26,9 +27,14 @@ private:
     // helper function to use in Dijkstra's algorithm
     // returns node with minimum distance value from nodes not yet included in shortest path tree
     int minDistance(int distance[], bool included[]);
+
 public: 
     // constructor
     dradestGraph(int x);
+    // copy constructor
+    dradestGraph(const dradestGraph& drg);
+    // destructor
+    ~dradestGraph();
     // utility function to add an edge between u and w
     void addEdge(int u, int w);
     // utility function to print the adjacency list representation of the graph
