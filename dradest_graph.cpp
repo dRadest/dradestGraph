@@ -5,15 +5,16 @@
 #include <stack>
 #include <limits.h> 
 #include "dradest_graph.h"
-using namespace std;
 
+// parameterized constructor
 dradestGraph::dradestGraph(int x)
 {
   V = x;
-  adj = new vector<int>[V];
-  std::cout << "graph constructed" << endl;
+  adj = new std::vector<int>[V];
+  std::cout << "graph constructed\n";
 }
 
+// copy constructor
 dradestGraph::dradestGraph(const dradestGraph& drg)
 {
   V = drg.V;
@@ -24,11 +25,13 @@ dradestGraph::dradestGraph(const dradestGraph& drg)
   }
 }
 
+// destructor
 dradestGraph::~dradestGraph()
 {
   delete [] adj;
 }
 
+// adds an edge to the graph between nodes u and w
 void dradestGraph::addEdge(int u, int w)
 {
   // safety check for index out of bounds
@@ -51,6 +54,7 @@ void dradestGraph::addEdge(int u, int w)
   }
 }
 
+// prints adjacency list of the graph
 void dradestGraph::printGraph() 
 { 
   for (int i=0; i < V; ++i) 
@@ -63,6 +67,7 @@ void dradestGraph::printGraph()
   } 
 } 
 
+// performs breadth first search starting from node n
 std::vector<int> dradestGraph::BFS(int n)
 {
   // save bfs 
@@ -84,9 +89,6 @@ std::vector<int> dradestGraph::BFS(int n)
   // mark the starting node as visited and enqueue it 
   visited[n] = true; 
   q.push(n); 
-  
-  // iterator for iterating adjacency list of node n
-  std::vector<int>::iterator it; 
 
   std::cout << "BFS from node " << n << ": ";
   
@@ -99,7 +101,7 @@ std::vector<int> dradestGraph::BFS(int n)
     q.pop(); 
 
     // traverse all adjacent nodes of node n
-    for (it = adj[n].begin(); it != adj[n].end(); ++it) 
+    for (auto it = adj[n].begin(); it != adj[n].end(); ++it) 
     { 
       if (!visited[*it]) // mark as visited and enqueue it
       { 
@@ -112,6 +114,7 @@ std::vector<int> dradestGraph::BFS(int n)
   return bfs;
 }
 
+// performs depth first search, iteratively
 std::vector<int> dradestGraph::iterativeDFS(int n)
 {
   // save dfs 
@@ -128,7 +131,7 @@ std::vector<int> dradestGraph::iterativeDFS(int n)
   }
   
   // stack for depth first search
-  stack<int> stack; 
+  std::stack<int> stack; 
   
   // push the starting node unto stack 
   stack.push(n); 
@@ -141,13 +144,13 @@ std::vector<int> dradestGraph::iterativeDFS(int n)
     n = stack.top(); 
     stack.pop(); 
 
-    if(visited[n]) // ignore it if already visited
+    if(visited[n]) // ignore it if it's already visited
     {
       continue;
     }
 
     // mark n as visited and print it
-    cout << n << " "; 
+    std::cout << n << " "; 
     dfs.push_back(n);
     visited[n] = true; 
     
@@ -162,11 +165,12 @@ std::vector<int> dradestGraph::iterativeDFS(int n)
   return dfs;
 }
 
+// helper function for recursive depth first search
 void dradestGraph::helpDFS(int n, bool visited[], std::vector<int>* dfs) 
 { 
   // mark the current node as visited and print it 
   visited[n] = true; 
-  cout << n << " "; 
+  std::cout << n << " "; 
   dfs -> push_back(n);
   
   // traverse adjacency list of current node
@@ -177,9 +181,10 @@ void dradestGraph::helpDFS(int n, bool visited[], std::vector<int>* dfs)
   }
 } 
 
+// performs depth first search, recursively
 std::vector<int> dradestGraph::recursiveDFS(int n) 
 { 
-  vector<int> dfs;
+  std::vector<int> dfs;
   // check if n is valid
   if(n >= V){
     std::cout << "Node " << n << " invalid. Exiting DFS.\n";
@@ -199,6 +204,7 @@ std::vector<int> dradestGraph::recursiveDFS(int n)
 
 } 
 
+// helper function to detect a cycle in a graph reachable from node n
 bool dradestGraph::helpCycle(int n, bool visited[], int parent) 
 { 
   // mark the current node as visited 
@@ -211,17 +217,21 @@ bool dradestGraph::helpCycle(int n, bool visited[], int parent)
     if (!visited[*it]) 
     { 
      if (helpCycle(*it, visited, n)) 
+     {
       return true; 
-  } 
+     }
+    } 
 
     // adjacent node visited and not a parent of current node
-  else if (*it != parent) {
-    return true;
-  }
-} 
-return false; 
+    else if (*it != parent) 
+    {
+      return true;
+    }
+  } 
+  return false; 
 } 
 
+// detect a cycle in the graph using DFS
 bool dradestGraph::hasCycle()
 { 
   // initally, all nodes are not visited
@@ -232,8 +242,10 @@ bool dradestGraph::hasCycle()
 
   // call helpCycle() to detect a cycle in different DFS trees
   for (int i = 0; i < V; i++) {
-    if (!visited[i]) { 
-      if (helpCycle(i, visited, -1)) {
+    if (!visited[i]) 
+    { 
+      if (helpCycle(i, visited, -1)) 
+      {
         return true; 
       }
     }
@@ -278,10 +290,11 @@ void dradestGraph::Union(struct subset subsets[], int x, int y)
   } 
 }
 
+// detects a cycle using union-find
 bool dradestGraph::containsCycle()
 {
   // create a working copy of adjacency list
-  std::vector<int> *wadj = new vector<int>[V];
+  std::vector<int> *wadj = new std::vector<int>[V];
   for(int i=0; i<V; i++)
   {
     wadj[i] = adj[i];
@@ -318,6 +331,7 @@ bool dradestGraph::containsCycle()
   return false; 
 }
 
+// returns minimum spanning tree using Prim's algorithm
 std::vector<int>* dradestGraph::primMST()
 {
   // construct MST as an adjacency list
@@ -353,6 +367,7 @@ std::vector<int>* dradestGraph::primMST()
   return wadj;
 }
 
+// returns minimum spanning tree using Kruskal's algorithm
 std::vector<int>* dradestGraph::kruskalMST()
 {
   // construct MST as an adjacency list
@@ -393,6 +408,7 @@ std::vector<int>* dradestGraph::kruskalMST()
   return wadj;
 }
 
+// returns node with minimum distance value from nodes not yet included in shortest path tree
 int dradestGraph::minDistance(int distance[], bool included[]) 
 { 
    // Initialize min value 
@@ -410,6 +426,7 @@ int dradestGraph::minDistance(int distance[], bool included[])
    return min_index; 
 } 
 
+// prints shortest paths tree starting from root using Dijkstra's algorithm 
 void dradestGraph::dijkstraSPT(int root)
 {
   // set of included nodes in the MST

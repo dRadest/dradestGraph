@@ -1,11 +1,6 @@
 #include <iostream>
-#include <algorithm> 
 #include <vector>  
-
-using namespace std;
-
 #include "dradest_graph.h"
-
 
 // demonstrating functionality of dradest graph
 int main()
